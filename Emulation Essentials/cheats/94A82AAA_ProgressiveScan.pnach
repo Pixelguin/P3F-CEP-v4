@@ -1,0 +1,19 @@
+//480p by asmodean
+patch=1,EE,0019d320,word,3c040010
+patch=1,EE,0019d324,word,348426dc
+patch=1,EE,0019d328,word,8c820000
+patch=1,EE,0019d32c,word,38420001
+patch=1,EE,0019d330,word,ac820000
+patch=1,EE,0019d334,word,000217fc
+patch=1,EE,0019d338,word,000217ff
+patch=1,EE,0019d33c,word,0000000f
+patch=1,EE,0019d340,word,42000038
+patch=1,EE,0019d344,word,03e00008
+patch=1,EE,0019d348,word,00000000
+patch=1,EE,0019d34c,word,00000001
+
+patch=1,EE,004f8edc,word,24110000
+patch=1,EE,004f8ee0,word,24120050
+patch=1,EE,004f8ee4,word,24020001
+patch=1,EE,004f8ee8,word,10820031
+patch=1,EE,004f8eec,word,24130001

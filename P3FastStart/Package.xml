@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <name>P3FastStart</name>
+  <id>ltsophia.faststartcep</id>
+  <author>ltsophia</author>
+  <version>1.0</version>
+  <link>https://gamebanana.com/mods/390790</link>
+  <description>Skips the prompts to import vanilla Persona 3 save data and learn about FES-specific changes, which don't have any relevance to a first-time player using an emulator.</description>
+  <skippedVersion>all</skippedVersion>
+</Metadata>

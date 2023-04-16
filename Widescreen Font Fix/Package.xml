@@ -3,7 +3,7 @@
   <name>Widescreen Font Fix</name>
   <id>joenator.widescreenfontfix</id>
   <author>Joenator</author>
-  <version>1.5</version>
+  <version>1.8</version>
   <link>https://gamebanana.com/mods/33843</link>
   <description>Correctly scales the game font width when using the PCSX2 widescreen patch.</description>
   <skippedVersion>all</skippedVersion>

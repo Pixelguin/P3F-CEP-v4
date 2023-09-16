@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <name>Direct Commands</name>
+  <id>tge,alexankitty.directcommands</id>
+  <author>TGE, Alexankitty, teolicht</author>
+  <version>2.5</version>
+  <link>https://gamebanana.com/mods/426860</link>
+  <description>Adds a battle tactic for direct control of party members.
+
+To activate, select the "Direct Commands" tactic for each of your allies in the Tactics menu. "Tactics Memory" must be enabled in the game's Config menu for Direct Commands to persist between battles.
+
+If you are going to disable this mod, make sure to change your allies' tactics to something other than Direct Commands and save the game first.</description>
+  <skippedVersion>all</skippedVersion>
+</Metadata>

@@ -178,6 +178,14 @@
       <link />
     </Package>
     <Package>
+      <name>Direct Commands</name>
+      <path>Direct Commands</path>
+      <enabled>false</enabled>
+      <id>tge,alexankitty.directcommands</id>
+      <hidden>false</hidden>
+      <link>https://gamebanana.com/mods/426860</link>
+    </Package>
+    <Package>
       <name>Social Link Cheat Sheet</name>
       <path>Social Link Cheat Sheet</path>
       <enabled>false</enabled>

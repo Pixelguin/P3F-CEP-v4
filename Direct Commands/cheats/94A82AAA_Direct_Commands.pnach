@@ -34,8 +34,40 @@ patch=1,EE,002020CC,word,10400013
 patch=1,EE,002020D0,word,00000000
 patch=1,EE,002020D4,word,16740011
 
-patch=1,EE,0028DE14,word,2405001B // fix escape
-patch=1,EE,0029692C,word,00000000
+patch=1,EE,0028ddfc,word,8c630a2c // fix escape --> load another location with current character's tactic id and character id
+patch=1,EE,0028de00,word,94770002 // get current character id
+patch=1,EE,0028de08,word,12e20007 // check if current character is mc
+patch=1,EE,0028de0c,word,94630010 // load current character tactic
+patch=1,EE,0028de10,word,2402000b // load DC tactic id
+patch=1,EE,0028de14,word,0260202d // do original procedure before function call
+patch=1,EE,0028de18,word,10620005 // jump to escape function if we are in DC
+patch=1,EE,0028de1c,word,2405001b // and load the proper value for everyone to run
+patch=1,EE,0028de20,word,10000003 // else jump to escape function
+patch=1,EE,0028de24,word,2405001a // but loading the value for party member asking escape
+
+patch=1,EE,0028b1d0,word,3c160069 // fix escape 2 --> Load control address 0 (we didn't command character to run away) | 1 (we did command character to do so)
+patch=1,EE,0028b1d8,word,36d6acdc
+patch=1,EE,0028b1e8,word,aec00000 // store 0 to the control address
+patch=1,EE,0028b1f0,word,0000b02d // zero s6 we just used
+
+patch=1,EE,002968d0,word,3c170069 // load control address
+patch=1,EE,002968ec,word,36f7acdc 
+patch=1,EE,00296900,word,8ef70000 // replace s7 zeroing for loading control address value
+patch=1,EE,0029691c,word,946200a4 // load character id
+patch=1,EE,00296928,word,10500002 // check if current character is mc
+patch=1,EE,0029692c,word,00000000 
+patch=1,EE,00296930,word,12e00060 // check if current character has been commanded to run away
+patch=1,EE,00296934,word,0000b82d // make sure to zero out s7 as originally done
+patch=1,EE,00296938,word,8f83b6fc // shift subsequent piece of code to make room for this fix
+patch=1,EE,0029693c,word,94620b9e
+patch=1,EE,00296940,word,24420001
+patch=1,EE,00296944,word,a4620b9e
+patch=1,EE,00296948,word,8f82b6fc
+patch=1,EE,00296950,word,8c52014c
+patch=1,EE,00296ad0,word,0000b02d // make sure to zero out s6 as originally done
+patch=1,EE,00296ad8,word,a682001a // add replaced instruction into the branch to make room for the zeroing
+
+
 patch=1,EE,0028AC5C,word,9683001A // disable persona menu for non-mc
 patch=1,EE,0028AC60,word,3063FFBF
 patch=1,EE,0028AC64,word,A683001A
@@ -114,10 +146,28 @@ patch=1,EE,001FF520,word,8E1000A4
 patch=1,EE,001FF524,word,00000000
 patch=1,EE,001FF528,word,00000000
 patch=1,EE,001FF52C,word,00000000
-patch=1,EE,002D8210,word,00000000 // fix items
-patch=1,EE,002D8220,word,00000000
+
+
+patch=1,EE,002d8204,word,94a30070 // fix items --> make room for one more load
+patch=1,EE,002d8208,word,8e220a2c
+patch=1,EE,002d820c,word,94570002
+patch=1,EE,002d8210,word,94420010 // load current character tactic
+patch=1,EE,002d8214,word,081a6b7d // jump to unused location
+patch=1,EE,002d8218,word,24160001 // while at it load mc's character id
+patch=1,EE,0069adf4,word,16f60003 // check if current character's id is MC
+patch=1,EE,0069adf8,word,2416000b // load DC tactic id in case we are not MC
+patch=1,EE,0069adfc,word,080B6087 // if we are controlling this character we go to that original program part
+patch=1,EE,0069ae00,word,24020001 // while at it we load mc's id as well
+patch=1,EE,0069ae04,word,081a6b0c // jump to unused location
+patch=1,EE,0069ac30,word,10560072 // check if current character has DC tactic and jump to previous part
+patch=1,EE,0069ac34,word,00000000
+patch=1,EE,0069ac38,word,080b6097 // we are not mc and we are not using DC so we jump to that program part
+patch=1,EE,0069ac3c,word,00000000
+patch=1,EE,002D821c,word,0003843C // original "fix items" corrections --> some space used for original instructions that the patched nopped
+patch=1,EE,002D8220,word,0010843F
 patch=1,EE,002D8224,word,00000000
 patch=1,EE,002D823C,word,00000000
+
 patch=1,EE,002a3914,word,081a6b01 // fix boss battle camera -> jump to unused location
 patch=1,EE,0069ac04,word,8f87b6fc // load global position into a3
 patch=1,EE,0069ac08,word,3402001d // get whether current character is pointing or not
@@ -182,54 +232,23 @@ patch=1,EE,002062c4,word,ac6203dc
 patch=1,EE,0020639c,word,8c4403dc
 
 // Add logic to the new command added
+
 patch=1,EE,0029afc8,word,081a6b20 // code shifted, jump to unused location
+patch=1,EE,0029afcc,word,3c170069 // load first half of control address
 
-patch=1,EE,0069ac80,word,14460034 // if character we are controlling is not mc we continue our checks
-patch=1,EE,0069ac88,word,080a6bf4 // else we jump to the original program that handles direct commands turn
-
-patch=1,EE,0069ad54,word,0060902d // if not mc we go this way -> save needed registers for later
-patch=1,EE,0069ad58,word,0080982d
-patch=1,EE,0069ad5c,word,00a0a02d
-patch=1,EE,0069ad60,word,00c0a82d
-patch=1,EE,0069ad64,word,00e0b02d
-patch=1,EE,0069ad68,word,0c081000 // call neccesary function to always have total of party members + tactics for each member available in memory
-patch=1,EE,0069ad70,word,8f82b6fc // restore saved registers
-patch=1,EE,0069ad74,word,8c420148
-patch=1,EE,0069ad78,word,0240182d
-patch=1,EE,0069ad7c,word,0260202d
-patch=1,EE,0069ad80,word,0280282d
-patch=1,EE,0069ad84,word,02a0302d
-patch=1,EE,0069ad88,word,02c0382d
-patch=1,EE,0069ad8c,word,00009021 // cleanup used registers
-patch=1,EE,0069ad90,word,00009821
-patch=1,EE,0069ad94,word,0000a021
-patch=1,EE,0069ad98,word,0000a821
-patch=1,EE,0069ad9c,word,0000b021
-patch=1,EE,0069ada0,word,081a6b24 // jump to continue with party members fix
-patch=1,EE,0069ada4,word,8c530030 // while we are at it we load the mc model character for next checks
-
-patch=1,EE,0069ac90,word,8f96b5f8 // load address with total party members
-patch=1,EE,0069ac94,word,96d603ac // load the actual number of the address before with count of total party members
-patch=1,EE,0069ac98,word,24150001 // load a 1 into s5 (will be our distance counter from current character to mc)
-patch=1,EE,0069ac9c,word,8cd40030 // we get ally model struct from a2 (current controlling character address) copied into s4 (will represent next model character in memory)
-
-patch=1,EE,0069aca0,word,26b50001 // we add 1 into our counter
-patch=1,EE,0069aca4,word,8e940a34 // we load into s4 the next model character from the current one
-patch=1,EE,0069aca8,word,1693fffd // we check whether or not we got into mc, if we don't got there then jump to continue the loop
-
-patch=1,EE,0069acb0,word,02d5b023 // else we substract the difference of total members with distance to the mc
-patch=1,EE,0069acb4,word,0016a840 // based on this calculated index we can get the offset of the current character with next calculations
-patch=1,EE,0069acb8,word,02b6a821
-patch=1,EE,0069acbc,word,0015a8c0
-
-patch=1,EE,0069acc0,word,8f96b5f8 // we load the global pointer to the tactics
-patch=1,EE,0069acc4,word,02b6a821 // add the offset calculated before to the global address
-patch=1,EE,0069acc8,word,96b502f0 // and finally load which tactic the current character has
-patch=1,EE,0069accc,word,2416000b // we load 0xb into s6, which is the "Direct Commands" tactic id in memory
-patch=1,EE,0069acd0,word,12b6ffed // if current character has "Direct Commands" tactic then we jump to the original program that handles direct commands turn
-patch=1,EE,0069acd4,word,00000000
-patch=1,EE,0069acd8,word,080a6bf8 // else we jump to the original program that handles ai related turns
-patch=1,EE,0069acdc,word,00000000
+patch=1,EE,0069ac80,word,14460003 // if character we are controlling is not mc we continue our checks
+patch=1,EE,0069ac84,word,36f7acdc // load second half of control address
+patch=1,EE,0069ac88,word,24160001 // if we are controlling this character we will load control address flag to 1
+patch=1,EE,0069ac8c,word,080a6bf4 // and jump to the original program that handles direct commands turn
+patch=1,EE,0069ac90,word,aef60000 // while at it we store the flag into the control address
+patch=1,EE,0069ac94,word,8cd50030 // series of loads that get current character tactic directly within memory, current character is in a2
+patch=1,EE,0069ac98,word,8eb50a2c
+patch=1,EE,0069ac9c,word,96b50010
+patch=1,EE,0069aca0,word,2416000b // we load 0xb into s6, which is the "Direct Commands" tactic id in memory
+patch=1,EE,0069aca4,word,12b6fff8 // if current character has "Direct Commands" tactic then we jump to the original program that handles direct commands turn
+patch=1,EE,0069aca8,word,0000b02d // we load a 0 into the control flag if we didn't control the character
+patch=1,EE,0069acac,word,080a6bf8 // and jump to the original program that handles ai related turns
+patch=1,EE,0069acb0,word,aef60000 // while at it we store the flag into the control address
 
 //Rendering fixes
 patch=1,EE,00223CA0,word,3C02432D
